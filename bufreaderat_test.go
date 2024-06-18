@@ -41,7 +41,7 @@ func TestReadAt(t *testing.T) {
 	{
 		data, readCounter, bufReader := Setup(20, 20)
 		p := make([]byte, 10)
-		n, err := bufReader.ReadAt(0, p)
+		n, err := bufReader.ReadAt(p, 0)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -52,7 +52,7 @@ func TestReadAt(t *testing.T) {
 			t.Fatalf("expected: %s, got: %s", data[:2], p)
 		}
 		// Second read should hit buffer
-		if n, err = bufReader.ReadAt(10, p); err != nil {
+		if n, err = bufReader.ReadAt(p, 10); err != nil {
 			t.Fatal(err)
 		}
 		if n != len(p) {
@@ -71,7 +71,7 @@ func TestReadAt(t *testing.T) {
 
 		data, readCounter, bufReader := Setup(20, 20)
 		p := make([]byte, 5)
-		n, err := bufReader.ReadAt(10, p)
+		n, err := bufReader.ReadAt(p, 10)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -90,7 +90,7 @@ func TestReadAt(t *testing.T) {
 	{
 		data, readCounter, bufReader := Setup(10, 20)
 		p := make([]byte, 10)
-		n, err := bufReader.ReadAt(15, p)
+		n, err := bufReader.ReadAt(p, 15)
 		if err != io.EOF {
 			t.Fatalf("expected: %v, got: %v", io.EOF, err)
 		}
@@ -109,7 +109,7 @@ func TestReadAt(t *testing.T) {
 	{
 		data, readCounter, bufReader := Setup(20, 30)
 		p := make([]byte, 30)
-		n, err := bufReader.ReadAt(0, p)
+		n, err := bufReader.ReadAt(p, 0)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -129,7 +129,7 @@ func TestReadAt(t *testing.T) {
 	{
 		data, readCounter, bufReader := Setup(5, 10)
 		p := make([]byte, 10)
-		n, err := bufReader.ReadAt(5, p)
+		n, err := bufReader.ReadAt(p, 5)
 		if err != io.EOF {
 			t.Fatal(err)
 		}

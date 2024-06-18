@@ -1,6 +1,6 @@
 ## bufreaderat
 
-Package bufreaderat implements buffered io.ReaderAt. It wraps io.ReaderAt, by creating a wrapper object that also implement io.Reader but provide buffering.
+Package bufreaderat implements buffered io.ReaderAt. It wraps io.ReaderAt, by creating a wrapper object that also implement io.ReaderAt but provide buffering.
 
 ## Installation
 

@@ -10,6 +10,7 @@ const (
 	DEFAULT_BUFFER_SIZE = 1024
 )
 
+// BufReaderAt a wrapper for io.ReaderAt, to provide buffering.
 type BufReaderAt struct {
 	readerAt io.ReaderAt
 	buf      []byte
@@ -18,6 +19,7 @@ type BufReaderAt struct {
 	err      error
 }
 
+// Default retrusn a new BufReaderAt with the default buffer size.
 func Default(r io.ReaderAt) *BufReaderAt {
 	return &BufReaderAt{
 		readerAt: r,
@@ -27,6 +29,7 @@ func Default(r io.ReaderAt) *BufReaderAt {
 	}
 }
 
+// New returns a new BufReaderAt with buffer of specific size.
 func New(r io.ReaderAt, size int) *BufReaderAt {
 	return &BufReaderAt{
 		readerAt: r,
@@ -50,7 +53,8 @@ func (r *BufReaderAt) bufCap() int64 {
 
 }
 
-func (r *BufReaderAt) ReadAt(offset int64, p []byte) (n int, er error) {
+// ReadAt implements buffered io.ReadAt
+func (r *BufReaderAt) ReadAt(p []byte, offset int64) (n int, er error) {
 	pn := int64(len(p))
 	// read from buffer
 	if offset >= r.offset && pn <= r.len {
