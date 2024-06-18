@@ -1,4 +1,4 @@
-// Package bufreaderat wraps io.ReaderAt, by creating a wrapper object
+// Package bufreaderat implements buffered io.ReaderAt. It wraps io.ReaderAt, by creating a wrapper object
 // that also implement io.Reader but provide buffering.
 package bufreaderat
 
@@ -40,8 +40,7 @@ func (r *BufReaderAt) bufEnd() int64 {
 	return r.offset + r.len
 }
 
-
-// bufOffset returns the offset relative to r.offset (offset of the buffer from the start of the file) 
+// bufOffset returns the offset relative to r.offset (offset of the buffer from the start of the file)
 func (r *BufReaderAt) bufOffset(offset int64) int64 {
 	return offset - r.offset
 }
@@ -50,7 +49,6 @@ func (r *BufReaderAt) bufCap() int64 {
 	return int64(cap(r.buf))
 
 }
-
 
 func (r *BufReaderAt) ReadAt(offset int64, p []byte) (n int, er error) {
 	pn := int64(len(p))
@@ -67,17 +65,17 @@ func (r *BufReaderAt) ReadAt(offset int64, p []byte) (n int, er error) {
 	}
 
 	n, r.err = r.readerAt.ReadAt(r.buf, offset)
-		var read int64
+	var read int64
 	if n > 0 {
 		r.offset = offset
 		r.len = int64(n)
-		
-		if pn > r.len{
-			read = r.len - r.bufOffset(offset) 
+
+		if pn > r.len {
+			read = r.len - r.bufOffset(offset)
 		} else {
 			read = pn
 		}
-		
+
 		copy(p, r.buf[r.bufOffset(offset):r.len])
 	}
 
